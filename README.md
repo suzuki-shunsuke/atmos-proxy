@@ -5,3 +5,5 @@
 [![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/suzuki-shunsuke/atmos-proxy/main/LICENSE)
 
 The internal CLI tool of [Atmos](https://github.com/cloudposse/atmos).
+
+This is a fork of [aqua-proxy](https://github.com/aquaproj/aqua-proxy).
