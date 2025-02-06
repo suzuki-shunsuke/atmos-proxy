@@ -1,11 +1,11 @@
 ---
 version: 2
-project_name: aqua-proxy
+project_name: atmos-proxy
 archives:
 - name_template: "{{.ProjectName}}_{{.Os}}_{{.Arch}}"
 builds:
-- binary: aqua-proxy
-  main: cmd/aqua-proxy/main.go
+- binary: atmos-proxy
+  main: cmd/atmos-proxy/main.go
   env:
   - CGO_ENABLED=0
   goos:
@@ -18,7 +18,7 @@ builds:
 release:
   prerelease: true
   header: |
-    [Pull Requests](https://github.com/aquaproj/aqua-proxy/pulls?q=is%3Apr+milestone%3A{{.Tag}}) | [Issues](https://github.com/aquaproj/aqua-proxy/issues?q=is%3Aissue+milestone%3A{{.Tag}}) | https://github.com/aquaproj/aqua-proxy/compare/{{.PreviousTag}}...{{.Tag}}
+    [Pull Requests](https://github.com/aquaproj/atmos-proxy/pulls?q=is%3Apr+milestone%3A{{.Tag}}) | [Issues](https://github.com/aquaproj/atmos-proxy/issues?q=is%3Aissue+milestone%3A{{.Tag}}) | https://github.com/aquaproj/atmos-proxy/compare/{{.PreviousTag}}...{{.Tag}}
 signs:
 - cmd: cosign
   artifacts: checksum

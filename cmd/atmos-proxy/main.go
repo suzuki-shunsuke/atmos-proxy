@@ -8,7 +8,7 @@ import (
 	"runtime"
 	"syscall"
 
-	"github.com/aquaproj/aqua-proxy/pkg/cli"
+	"github.com/suzuki-shunsuke/atmos-proxy/pkg/cli"
 	"github.com/suzuki-shunsuke/go-error-with-exit-code/ecerror"
 )
 
@@ -24,16 +24,7 @@ func main() {
 }
 
 func getEnabledXSysExec(goos string) bool {
-	if goos == "windows" {
-		return false
-	}
-	if os.Getenv("AQUA_EXPERIMENTAL_X_SYS_EXEC") == "false" {
-		return false
-	}
-	if os.Getenv("AQUA_X_SYS_EXEC") == "false" {
-		return false
-	}
-	return true
+	return goos != "windows"
 }
 
 func core(enabledXSysExec bool) error {
