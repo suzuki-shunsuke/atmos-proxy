@@ -21,7 +21,9 @@ type Runner struct {
 	Stderr io.Writer
 }
 
-var errAquaCantBeExecuted = errors.New(`the command "aqua" can't be executed via aqua-proxy to prevent the infinite loop`)
+const rootCmdName = "atmos"
+
+var errAtmosCantBeExecuted = errors.New(`the command "atmos" can't be executed via atmos-proxy to prevent the infinite loop`)
 
 func (runner *Runner) Run(ctx context.Context, args ...string) error {
 	cmdName := filepath.Base(args[0])
@@ -32,11 +34,11 @@ func (runner *Runner) Run(ctx context.Context, args ...string) error {
 			cmdName = e
 		}
 	}
-	if cmdName == "aqua" {
-		fmt.Fprintln(os.Stderr, "[ERROR] "+errAquaCantBeExecuted.Error())
-		return errAquaCantBeExecuted
+	if cmdName == rootCmdName {
+		fmt.Fprintln(os.Stderr, "[ERROR] "+errAtmosCantBeExecuted.Error())
+		return errAtmosCantBeExecuted
 	}
-	cmd := exec.CommandContext(ctx, "aqua", append([]string{"exec", "--", cmdName}, args[1:]...)...) //nolint:gosec
+	cmd := exec.CommandContext(ctx, rootCmdName, append([]string{"exec", "--", cmdName}, args[1:]...)...) //nolint:gosec
 	cmd.Stdin = runner.Stdin
 	cmd.Stdout = runner.Stdout
 	cmd.Stderr = runner.Stderr
@@ -59,16 +61,16 @@ func setCancel(cmd *exec.Cmd) {
 }
 
 func absoluteAquaPath() (string, error) {
-	aquaPath, err := exec.LookPath("aqua")
+	rootCmdPath, err := exec.LookPath(rootCmdName)
 	if err != nil {
-		return "", fmt.Errorf("aqua isn't found: %w", err)
+		return "", fmt.Errorf("%s isn't found: %w", rootCmdName, err)
 	}
-	if filepath.IsAbs(aquaPath) {
-		return aquaPath, nil
+	if filepath.IsAbs(rootCmdPath) {
+		return rootCmdPath, nil
 	}
-	a, err := filepath.Abs(aquaPath)
+	a, err := filepath.Abs(rootCmdPath)
 	if err != nil {
-		return "", fmt.Errorf(`convert relative path "%s" to absolute path: %w`, aquaPath, err)
+		return "", fmt.Errorf(`convert relative path "%s" to absolute path: %w`, rootCmdPath, err)
 	}
 	return a, nil
 }
